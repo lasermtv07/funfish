@@ -3,7 +3,10 @@
 #include <stdlib.h>
 #define PROGSIZE 10240
 
-
+struct fn {
+	int name;
+	char fn[PROGSIZE];
+};
 char* stringify(char c){
 	char* s=malloc(2);
 	s[0]=c; s[1]=0;
@@ -28,10 +31,10 @@ int main(int argc, char**argv){
 			printf("%s\n",temp);
 			strcpy(temp,"");
 		}
-		else if(code[i]=='c') l--;
+		else if(code[i]=='c' && l>0) l--;
 		if(l>0) strcat(temp,stringify(code[i]));
-		if(code[i]=='f') l++;
 
+		if(code[i]=='f') l++;
 	}
 	return 0;
 }
