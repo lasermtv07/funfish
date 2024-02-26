@@ -1,5 +1,9 @@
-main:
-	clear
+main: main.c
 	gcc main.c -o main
-clear:
-	rm main
+
+clean:
+	rm -f main
+
+recompile: clean main
+
+.PHONY: clean recompile
