@@ -25,13 +25,20 @@ int fnLastElement(struct fn fun[PROGSIZE]){
 	return l;
 }
 
+char* getSubstr(char str[PROGSIZE], int s, int e){
+	char* o=malloc(PROGSIZE); o[0]=0;
+	for(;s<=e;s++){
+		strcat(o,stringify(str[s]));
+	}
+	return o;
+}
 int main(int argc, char**argv){
 	char code[PROGSIZE]; code[0]=0;
 	strcpy(code,argv[1]);
 	
 	struct fn fun[PROGSIZE];
+	printf("%s",getSubstr(code,3,5));
 	char temp[PROGSIZE]; temp[0]=0;
-	int l=0; int ia=0;
 	int acc=0;
 	for(int i=0;i<=strlen(code);i++){
 		if(acc==256 || acc==-1) acc=0;
@@ -39,29 +46,6 @@ int main(int argc, char**argv){
 		if(code[i]=='d') acc--;
 		if(code[i]=='s') acc*=acc;
 
-		if(code[i]=='c' && l==1) {
-			l=0;
-			if(fnLastElement(fun)!=0){
-				fun[fnLastElement(fun)+1].name=ia;
-				fun[fnLastElement(fun)+1].fn=temp;
-			
-			}
-			else {
-				fun[0].name=ia;
-				fun[0].fn=temp;
-			}
-
-				strcpy(temp,"");
-		}
-		else if(code[i]=='c' && l>0) l--;
-		if(code[i]=='c' && l<=0){
-			if(fun[acc].fn!=0)printf("%s\n",fun[acc].fn);
-		}
-		if(l>0) strcat(temp,stringify(code[i]));
-		if(code[i]=='f' && l==0) ia=acc;
-		if(code[i]=='f') l++;
 	}
-	printf("%u",fnLastElement(fun));
-	printf("%s",fun[0].fn);
 	return 0;
 }
