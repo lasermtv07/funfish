@@ -41,6 +41,14 @@ int getLastNonZeroInt(int arr[PROGSIZE]){
 	}
 	return o;
 }
+//same
+int getLastNonNegativeInt(int arr[PROGSIZE]){
+	int o=0;
+	for(int i=0;i<PROGSIZE;i++){
+		if(arr[i]>-1) o=i;
+	}
+	return o;
+}
 //'bloat' being considered all other 'f's and 'c's
 char* removeAllInlineBloat(char str[PROGSIZE]){
 	strcpy(str,getSubstr(str,1,strlen(str)-1)); //do i have to do this??
@@ -56,6 +64,12 @@ char* removeAllInlineBloat(char str[PROGSIZE]){
 	return t;
 
 }
+//for debugging
+void printAllFuns(struct fn fun[PROGSIZE]){
+	for(int i=0;i<=fnLastElement(fun);i++){
+		if(fun[i].fn!=0) printf("%u => %s \n", fun[i]);
+	}
+}
 int main(int argc, char**argv){
 	char code[PROGSIZE]; code[0]=0;
 	//pads the array by one space for.. reasons
@@ -63,18 +77,32 @@ int main(int argc, char**argv){
 	strcat(code,argv[1]);
 	struct fn fun[PROGSIZE];
 	static int stack[PROGSIZE];
+	static int nameStack[PROGSIZE];
+	//fill namestack
+	for(int i=0;i<PROGSIZE;i++){
+		nameStack[i]=-1;
+	}
 	int acc=0;
 	for(int i=0;i<=strlen(code);i++){
 		if(acc==256 || acc==-1) acc=0;
 		if(code[i]=='i') acc++;
 		if(code[i]=='d') acc--;
 		if(code[i]=='s') acc*=acc;
-		if(code[i]=='f') stack[getLastNonZeroInt(stack)+1]=i;
+		if(code[i]=='f') {
+			stack[getLastNonZeroInt(stack)+1]=i;
+			nameStack[getLastNonNegativeInt(nameStack)+1]=acc;
+
+		}
+		//TODO handle non pair 'c's
 		if(code[i]=='c'){
 			printf("%s\n",removeAllInlineBloat(getSubstr(code,stack[getLastNonZeroInt(stack)],i)));
+			fun[fnLastElement(fun)+1].name=nameStack[getLastNonNegativeInt(nameStack)];
+			fun[fnLastElement(fun)+1].fn=removeAllInlineBloat(getSubstr(code,stack[getLastNonZeroInt(stack)],i));
 			stack[getLastNonZeroInt(stack)]=0;
+			nameStack[getLastNonNegativeInt(nameStack)]=-1;
 		}
 
 	}
+	printAllFuns(fun);
 	return 0;
 }
