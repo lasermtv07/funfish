@@ -43,18 +43,14 @@ int getLastNonZeroInt(int arr[PROGSIZE]){
 }
 //'bloat' being considered all other 'f's and 'c's
 char* removeAllInlineBloat(char str[PROGSIZE]){
-	char* w=malloc(PROGSIZE); w[0]=0;
-	strcpy(w,getSubstr(str,1,strlen(str)-1)); //do i have to do this??
-	int lc=0;
-	for(int i=0;i<PROGSIZE;i++){
-		if(w[i]=='c') lc=i;
-	}
+	strcpy(str,getSubstr(str,1,strlen(str)-1)); //do i have to do this??
 	int ff=false;
 	char*t=malloc(PROGSIZE); t[0]=0; //uhhh...
 	for(int i=0;i<PROGSIZE;i++){
-		if(w[i]=='f') ff=true;
-		if(!ff) strcat(t,stringify(w[i]));
-		if(i==lc) ff=false;
+
+		if(str[i]=='f') ff=true;
+		if(!ff && str[i]!='c') strcat(t,stringify(str[i]));
+		if(str[i]=='c') ff=false;
 	}
 
 	return t;
