@@ -1,5 +1,5 @@
-main: main.c
-	gcc main.c -o main
+main:
+	gcc src/main.c -o main
 
 clean:
 	rm -f main
