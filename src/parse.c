@@ -35,7 +35,7 @@ struct fn* parse(char ic[PROGSIZE]){
 
 	}
 	struct fn*ret=calloc(PROGSIZE,sizeof(struct fn));
-	for(int i=0;i<fnLastElement(fun);i++){
+	for(int i=0;i<PROGSIZE;i++){
 		ret[i].name=fun[i].name;
 		ret[i].fn=fun[i].fn;
 	}
