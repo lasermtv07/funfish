@@ -4,19 +4,8 @@
 #include <stdbool.h>
 #include "com.h"
 
-char* insertSubstrAtIndex(char* i,char* t, int n){
-	char* o=malloc(strlen(i)+strlen(t)+5); //+5 coz why the fuck not..
-	o[0]=0;
-	strncpy(o,i,n);
-	strcat(o,t);
-	strcat(o,getSubstr(i,n+1,strlen(i)));
-	return o;
-}
-
-
 
 struct fn* parse(char ic[PROGSIZE]){
-	printf("%s",insertSubstrAtIndex("hello world"," kys ",5));
 	char code[PROGSIZE*15]=" ";
 	strcat(code,ic);
 	struct fn fun[PROGSIZE];
@@ -37,18 +26,24 @@ struct fn* parse(char ic[PROGSIZE]){
 			nameStack[getLastNonNegativeInt(nameStack)+1]=acc;
 
 		}
-		//TODO handle non pair 'c's
+		//handle non pairs C's
+		if(code[i]=='c' && getLastNonZeroInt(stack)==0){
+			// printf("%d,%d do something lol\n", i,getLastNonZeroInt(stack)); - indeed does something\
+			//TODO: fix a retarded fuck up
+			if(doesFnExist(fun,acc)) strcpy(code,insertSubstrAtIndex(code,fun[getFnIndexByName(fun,acc)].fn,acc));
+			printf("\n%s\n", code); exit(1);
+		}
+		//handle pair C's 
 		if(code[i]=='c' && getLastNonNegativeInt(nameStack)>-1){
 			fun[fnLastElement(fun)+1].name=nameStack[getLastNonNegativeInt(nameStack)];
 			fun[fnLastElement(fun)+1].fn=removeAllInlineBloat(getSubstr(code,stack[getLastNonZeroInt(stack)],i));
 			stack[getLastNonZeroInt(stack)]=0;
 			nameStack[getLastNonNegativeInt(nameStack)]=-1;
 		}
-		else if(code[i]=='c') printf("do something lol");
-
 	}
+	//printf("\n%d\n",getFnIndexByName(fun,5));
 	struct fn*ret=calloc(PROGSIZE,sizeof(struct fn));
-	for(int i=0;i<PROGSIZE;i++){
+	for(int i=0;i<fnLastElement(fun);i++){
 		ret[i].name=fun[i].name;
 		ret[i].fn=fun[i].fn;
 	}

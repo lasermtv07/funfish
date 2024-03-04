@@ -69,4 +69,25 @@ void printAllFuns(struct fn fun[PROGSIZE]){
                 if(fun[i].fn!=0) printf("%u => %s \n", fun[i].name, fun[i].fn);
         }
 }
+char* insertSubstrAtIndex(char* i,char* t, int n){
+        char* o=(char*) malloc(strlen(i)+strlen(t)+5); //+5 coz why the fuck not..
+        o[0]=0;
+        strncpy(o,i,n);
+        strcat(o,t);
+        strcat(o,getSubstr(i,n+1,strlen(i)));
+        return o;
+}
+bool doesFnExist(struct fn fun[PROGSIZE],int n){
+        for(int i=0;i<PROGSIZE;i++){
+                if(fun[i].name==n) return true;
+        }
+        return false;
+}
+int getFnIndexByName(struct fn fun[PROGSIZE], int n){
+        //doing this too often, eh?
+        for(int i=0;i<PROGSIZE;i++){
+                if(fun[i].name==n) return i;
+        }
+        return -1;
+}
 
