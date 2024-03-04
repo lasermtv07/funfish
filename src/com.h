@@ -17,7 +17,7 @@ char* stringify(char c){
         return s;
 }
 //gets substring in defined interval
-char* getSubstr(char str[PROGSIZE], int s, int e){
+char* getSubstr(char* str, int s, int e){
         char* o=(char *) malloc(PROGSIZE); o[0]=0;
         for(;s<=e;s++){
                 strcat(o,stringify(str[s]));
@@ -49,7 +49,7 @@ int fnLastElement(struct fn fun[PROGSIZE]){
 }
 
 //'bloat' being considered all other 'f's and 'c's
-char* removeAllInlineBloat(char str[PROGSIZE]){
+char* removeAllInlineBloat(char* str){
         strcpy(str,getSubstr(str,1,strlen(str)-1)); //do i have to do this??
         int ff=false;
         char*t=(char *) malloc(PROGSIZE); t[0]=0; //uhhh...

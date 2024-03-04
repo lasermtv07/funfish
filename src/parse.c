@@ -4,8 +4,20 @@
 #include <stdbool.h>
 #include "com.h"
 
+char* insertSubstrAtIndex(char* i,char* t, int n){
+	char* o=malloc(strlen(i)+strlen(t)+5); //+5 coz why the fuck not..
+	o[0]=0;
+	strncpy(o,i,n);
+	strcat(o,t);
+	strcat(o,getSubstr(i,n+1,strlen(i)));
+	return o;
+}
+
+
+
 struct fn* parse(char ic[PROGSIZE]){
-	char code[PROGSIZE]=" ";
+	printf("%s",insertSubstrAtIndex("hello world"," kys ",5));
+	char code[PROGSIZE*15]=" ";
 	strcat(code,ic);
 	struct fn fun[PROGSIZE];
 	static int stack[PROGSIZE];
@@ -15,7 +27,7 @@ struct fn* parse(char ic[PROGSIZE]){
 		nameStack[i]=-1;
 	}
 	int acc=0;
-	for(int i=0;i<=strlen(code);i++){
+	for(int i=0;i<=PROGSIZE;i++){
 		if(acc==256 || acc==-1) acc=0;
 		if(code[i]=='i') acc++;
 		if(code[i]=='d') acc--;
@@ -32,6 +44,7 @@ struct fn* parse(char ic[PROGSIZE]){
 			stack[getLastNonZeroInt(stack)]=0;
 			nameStack[getLastNonNegativeInt(nameStack)]=-1;
 		}
+		else if(code[i]=='c') printf("do something lol");
 
 	}
 	struct fn*ret=calloc(PROGSIZE,sizeof(struct fn));
