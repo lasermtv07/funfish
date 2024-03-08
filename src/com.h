@@ -43,7 +43,7 @@ int getLastNonNegativeInt(int arr[PROGSIZE]){
 int fnLastElement(struct fn fun[PROGSIZE]){
         int l=0;
         for(int i=0;i<PROGSIZE;i++){
-                if(fun[i].fn!=0) l=i;
+                if(fun[i].name!=-1) l=i;
         }
         return l;
 }

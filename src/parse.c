@@ -9,6 +9,10 @@ struct fn* parse(char ic[PROGSIZE]){
 	char code[PROGSIZE*15]=" ";
 	strcat(code,ic);
 	struct fn fun[PROGSIZE];
+	for(int i=0;i<PROGSIZE;i++){
+		fun[i].name=-1;
+		fun[i].fn=0;
+	}
 	static int stack[PROGSIZE];
 	static int nameStack[PROGSIZE];
 	//fill namestack
@@ -30,7 +34,14 @@ struct fn* parse(char ic[PROGSIZE]){
 		if(code[i]=='c' && getLastNonZeroInt(stack)==0){
 			// printf("%d,%d do something lol\n", i,getLastNonZeroInt(stack)); - indeed does something\
 			//TODO: fix a retarded fuck up
-			if(doesFnExist(fun,acc)) strcpy(code,insertSubstrAtIndex(code,fun[getFnIndexByName(fun,acc)].fn,acc));
+			//crashes when fn called
+			if(doesFnExist(fun,acc)){
+				printf("ich werke\n");
+				for(int j=0;j<PROGSIZE-1;j++){
+					printf("%s\n",fun[j].fn);
+					if(j==acc) strcpy(code,insertSubstrAtIndex(code,fun[j].fn,i));
+				}
+			}
 			printf("\n%s\n", code); exit(1);
 		}
 		//handle pair C's 
